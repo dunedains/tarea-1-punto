@@ -10,3 +10,5 @@ def menu():
     return opcion
 def menu1():
     print('Este es el menu 1')
+def menu2():
+    print('El menu2 es este')

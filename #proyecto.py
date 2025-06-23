@@ -1,11 +1,12 @@
 #proyecto
-pacientes = {}
-farmacos = {}
-insumos_clinicos = {}
+dic_pacientes = {}
+dic_farmacos = {}
+dic_insumos_clinicos = {}
 productos_terminados = []
 prestaciones_medicas = []
 provedores = []
-op=True
+op = True
+
 def pacientes():
     print("1) agregar paciente")
     print("2) eliminar paciente")
@@ -17,34 +18,30 @@ def pacientes():
         nombre = input("Ingrese el nombre del paciente: ")
         edad = input("Ingrese la edad del paciente: ")
         genero = input("Ingrese el genero del paciente: ")
-        agregar_a_diccionario(pacientes, nombre, {'edad': edad, 'genero': genero})
-
-
+        agregar_a_diccionario(dic_pacientes, nombre, {'edad': edad, 'genero': genero})
     elif opcion == "2":
         nombre = input("Ingrese el nombre del paciente a eliminar: ")
-        eliminar_de_diccionario(pacientes, nombre)
+        eliminar_de_diccionario(dic_pacientes, nombre)
     elif opcion == "3":
         nombre = input("Ingrese el nombre del paciente a modificar: ")
         nuevonombre  = input("Ingrese el nuevo nombre del paciente: ")
-        if nombre in pacientes:
+        if nombre in dic_pacientes:
             edad = input("Ingrese la nueva edad del paciente: ")
             genero = input("Ingrese el nuevo genero del paciente: ")
-            modificar_en_diccionario(pacientes, nombre, {'edad': edad, 'genero': genero})
+            modificar_en_diccionario(dic_pacientes, nombre, {'edad': edad, 'genero': genero})
         else:
             print(f"Paciente {nombre} no encontrado.")
-
     elif opcion == "4":
         print("Lista de pacientes:")
-        for nombre, datos in pacientes.items():
+        for nombre, datos in dic_pacientes.items():
             print(f"Nombre: {nombre}, Edad: {datos['edad']}, Genero: {datos['genero']}")
-
     elif opcion == "5":
         nombre = input("Ingrese el nombre del paciente a buscar: ")
-        buscar_en_diccionario(pacientes, nombre)
+        buscar_en_diccionario(dic_pacientes, nombre)
     else:
         print("Opcion no valida. Intente de nuevo.")
-def farmacos():
 
+def farmacos():
     print("1) agregar farmaco")
     print("2) eliminar farmaco")
     print("3) modificar farmaco")
@@ -54,28 +51,27 @@ def farmacos():
     if opcion == "1":
         nombre = input("Ingrese el nombre del farmaco: ")
         cantidad = input("Ingrese la cantidad del farmaco: ")
-        agregar_a_diccionario(farmacos, nombre, cantidad)
+        agregar_a_diccionario(dic_farmacos, nombre, cantidad)
     elif opcion == "2":
         nombre = input("Ingrese el nombre del farmaco a eliminar: ")
-        eliminar_de_diccionario(farmacos, nombre)
+        eliminar_de_diccionario(dic_farmacos, nombre)
     elif opcion == "3":
         nombre = input("Ingrese el nombre del farmaco a modificar: ")
         nuevonombre  = input("Ingrese el nuevo nombre del farmaco: ")
-        if nombre in farmacos:
+        if nombre in dic_farmacos:
             cantidad = input("Ingrese la nueva cantidad del farmaco: ")
-            modificar_en_diccionario(farmacos, nombre, cantidad)
+            modificar_en_diccionario(dic_farmacos, nombre, cantidad)
         else:
             print(f"Farmaco {nombre} no encontrado.")
     elif opcion == "4":
         print("Lista de farmacos:")
-        for nombre, cantidad in farmacos.items():
+        for nombre, cantidad in dic_farmacos.items():
             print(f"Nombre: {nombre}, Cantidad: {cantidad}")
     elif opcion == "5":
         nombre = input("Ingrese el nombre del farmaco a buscar: ")
-        buscar_en_diccionario(farmacos, nombre)
+        buscar_en_diccionario(dic_farmacos, nombre)
     else:
         print("Opcion no valida. Intente de nuevo.")
-
 
 def insumos_clinicos():
     print("1) agregar insumo clinico")
@@ -87,25 +83,25 @@ def insumos_clinicos():
     if opcion == "1":
         nombre = input("Ingrese el nombre del insumo clinico: ")
         cantidad = input("Ingrese la cantidad del insumo clinico: ")
-        agregar_a_diccionario(insumos_clinicos, nombre, cantidad)
+        agregar_a_diccionario(dic_insumos_clinicos, nombre, cantidad)
     elif opcion == "2":
         nombre = input("Ingrese el nombre del insumo clinico a eliminar: ")
-        eliminar_de_diccionario(insumos_clinicos, nombre)
+        eliminar_de_diccionario(dic_insumos_clinicos, nombre)
     elif opcion == "3":
         nombre = input("Ingrese el nombre del insumo clinico a modificar: ")
         nuevonombre  = input("Ingrese el nuevo nombre del insumo clinico: ")
-        if nombre in insumos_clinicos:
+        if nombre in dic_insumos_clinicos:
             cantidad = input("Ingrese la nueva cantidad del insumo clinico: ")
-            modificar_en_diccionario(insumos_clinicos, nombre, cantidad)
+            modificar_en_diccionario(dic_insumos_clinicos, nombre, cantidad)
         else:
             print(f"Insumo clinico {nombre} no encontrado.")
     elif opcion == "4":
         print("Lista de insumos clinicos:")
-        for nombre, cantidad in insumos_clinicos.items():
+        for nombre, cantidad in dic_insumos_clinicos.items():
             print(f"Nombre: {nombre}, Cantidad: {cantidad}")
     elif opcion == "5":
         nombre = input("Ingrese el nombre del insumo clinico a buscar: ")
-        buscar_en_diccionario(insumos_clinicos, nombre)
+        buscar_en_diccionario(dic_insumos_clinicos, nombre)
     else:
         print("Opcion no valida. Intente de nuevo.")
 
@@ -136,6 +132,7 @@ def productos_terminados():
             print(f"Producto terminado {nombre} encontrado.")
         else:
             print(f"Producto terminado {nombre} no encontrado.")
+
 def prestaciones_medicas():
     print("1) agregar prestacion medica")
     print("2) eliminar prestacion medica")
@@ -163,6 +160,7 @@ def prestaciones_medicas():
             print(f"Prestacion medica {nombre} encontrada.")
         else:
             print(f"Prestacion medica {nombre} no encontrada.")
+
 def provedores():
     print("1) agregar provedor")
     print("2) eliminar provedor")
@@ -184,7 +182,9 @@ def provedores():
         print("Lista de provedores:")
         for provedor in provedores:
             print(provedor)
+
 def menu():
+    global op
     print("Menu de gestion de datos:")
     print("1) Gestionar pacientes")
     print("2) Gestionar farmacos")
@@ -208,23 +208,25 @@ def menu():
         provedores()
     elif opcion == "7":
         print("Saliendo del programa.")
-        op=False
-        return 
-    
+        op = False
+        return
     else:
         print("Opcion no valida. Intente de nuevo.")
+
 def agregar_a_lista(lista, item):
     if item not in lista:
         lista.append(item)
         print(f"{item} agregado correctamente.")
     else:
         print(f"{item} ya existe en la lista.")
+
 def eliminar_de_lista(lista, item):
     if item in lista:
         lista.remove(item)
         print(f"{item} eliminado correctamente.")
     else:
         print(f"{item} no se encuentra en la lista.")
+
 def modificar_en_lista(lista, old_item, new_item):
     if old_item in lista:
         index = lista.index(old_item)
@@ -232,29 +234,34 @@ def modificar_en_lista(lista, old_item, new_item):
         print(f"{old_item} modificado a {new_item} correctamente.")
     else:
         print(f"{old_item} no se encuentra en la lista.")
+
 def agregar_a_diccionario(diccionario, clave, valor):
     if clave not in diccionario:
         diccionario[clave] = valor
         print(f"{clave} agregado correctamente.")
     else:
         print(f"{clave} ya existe en el diccionario.")
+
 def eliminar_de_diccionario(diccionario, clave):
     if clave in diccionario:
         del diccionario[clave]
         print(f"{clave} eliminado correctamente.")
     else:
         print(f"{clave} no se encuentra en el diccionario.")
+
 def modificar_en_diccionario(diccionario, clave, nuevo_valor):
     if clave in diccionario:
         diccionario[clave] = nuevo_valor
         print(f"{clave} modificado a {nuevo_valor} correctamente.")
     else:
         print(f"{clave} no se encuentra en el diccionario.")
+
 def buscar_en_diccionario(diccionario, clave):
     if clave in diccionario:
         print(f"{clave} encontrado con valor: {diccionario[clave]}")
     else:
         print(f"{clave} no encontrado en el diccionario.")
+
 def listar_diccionario(diccionario):
     if diccionario:
         print("Contenido del diccionario:")
@@ -262,13 +269,15 @@ def listar_diccionario(diccionario):
             print(f"{clave}: {valor}")
     else:
         print("El diccionario está vacío.")
+
 def reporte_farmacos():
     print("Reporte de farmacos:")
-    if farmacos:
-        for nombre, cantidad in farmacos.items():
+    if dic_farmacos:
+        for nombre, cantidad in dic_farmacos.items():
             print(f"Nombre: {nombre}, Cantidad: {cantidad}")
     else:
         print("No hay farmacos registrados.")
+
 def obtener_bajo_stock(diccionario):
     bajo_stock = []
     for clave, valor in diccionario.items():
@@ -281,7 +290,7 @@ def obtener_bajo_stock(diccionario):
 
 def reporte_bajo_stock():
     print("Fármacos con stock menor a 20:")
-    bajos = obtener_bajo_stock(farmacos)
+    bajos = obtener_bajo_stock(dic_farmacos)
     if bajos:
         for nombre in bajos:
             print(f"- {nombre}")
@@ -289,17 +298,26 @@ def reporte_bajo_stock():
         print("No hay fármacos con stock bajo.")
 
     print("\nInsumos clínicos con stock menor a 20:")
-    bajos_insumos = obtener_bajo_stock(insumos_clinicos)
+    bajos_insumos = obtener_bajo_stock(dic_insumos_clinicos)
     if bajos_insumos:
         for nombre in bajos_insumos:
             print(f"- {nombre}")
     else:
         print("No hay insumos clínicos con stock bajo.")
+
 while op:
     menu()
-    if op == False:
-        print("Saliendo del programa.")
+    if op:
+        print("volviendo al menu principal")
     else:
-        print("Volviendo al menú principal.")
-    reporte_farmacos()
-    reporte_bajo_stock()
+        print("saliendo del programa")
+        reporte_bajo_stock()
+        reporte_farmacos()
+        listar_diccionario(dic_pacientes)
+        listar_diccionario(dic_farmacos)
+        listar_diccionario(dic_insumos_clinicos)
+        print("Productos terminados:", productos_terminados)
+        print("Prestaciones medicas:", prestaciones_medicas)
+        print("Provedores:", provedores)
+        print("Gracias por usar el sistema de gestion de datos.")
+        print("Hasta luego!")

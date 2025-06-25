@@ -1,5 +1,5 @@
 #proyecto
-dic_paciente = {} #codigo:descripcion
+dic_pacientes = {} #codigo:descripcion
 dic_farmacos = {} #codigo:descripcion
 dic_insumos_clinicos = {} #codigo:descripcion
 productos_terminados = {} #codigo:descripcion
@@ -190,34 +190,35 @@ def provedores():
             print(provedor)
 
 def menu():
-    global op
-    print("Menu de gestion de datos:")
-    print("1) Gestionar pacientes")
-    print("2) Gestionar farmacos")
-    print("3) Gestionar insumos clinicos")
-    print("4) Gestionar productos terminados")
-    print("5) Gestionar prestaciones medicas")
-    print("6) Gestionar provedores")
-    print("7) Salir")
-    opcion = input("Seleccione una opcion: ")
-    if opcion == "1":
-        pacientes()
-    elif opcion == "2":
-        farmacos()
-    elif opcion == "3":
-        insumos_clinicos()
-    elif opcion == "4":
-        productos_terminados()
-    elif opcion == "5":
-        prestaciones_medicas()
-    elif opcion == "6":
-        provedores()
-    elif opcion == "7":
-        print("Saliendo del programa.")
-        op = False
-        return
-    else:
-        print("Opcion no valida. Intente de nuevo.")
+    op = True
+    while op:
+        print("Menu de gestion de datos:")
+        print("1) Gestionar pacientes")
+        print("2) Gestionar farmacos")
+        print("3) Gestionar insumos clinicos")
+        print("4) Gestionar productos terminados")
+        print("5) Gestionar prestaciones medicas")
+        print("6) Gestionar provedores")
+        print("7) Salir")
+        opcion = input("Seleccione una opcion: ")
+        if opcion == "1":
+            pacientes()
+        elif opcion == "2":
+            farmacos()
+        elif opcion == "3":
+            insumos_clinicos()
+        elif opcion == "4":
+            productos_terminados()
+        elif opcion == "5":
+            prestaciones_medicas()
+        elif opcion == "6":
+            provedores()
+        elif opcion == "7":
+            print("Saliendo del programa.")
+            op = False
+            return
+        else:
+            print("Opcion no valida. Intente de nuevo.")
 
 def agregar_a_lista(lista, item):
     if item not in lista:
@@ -312,63 +313,72 @@ def reporte_bajo_stock():
         print("No hay insumos clínicos con stock bajo.")
 
 def produccion_menu():
-    print('1) Crear composicion de producto terminado')
-    print('2) Crear orden de produccion')
-    print('3) Ejecutar orden de produccion')
-    print('4) Ver stock de productos terminados')
-    opcion = input('Seleccione una opcion: ')
+    op = True
+    while op:
+        print('1) Crear composicion de producto terminado')
+        print('2) Crear orden de produccion')
+        print('3) Ejecutar orden de produccion')
+        print('4) Ver stock de productos terminados')
+        print('5) Salir')
+        opcion = input('Seleccione una opcion: ')
 
-    if opcion == '1':
-        codigo = input('Ingrese el codigo del producto terminado: ')
-        composiciones[codigo] = []
-        cantidad_items = int(input('Cuantos insumos o farmacos usara este producto?: '))
-        for i in range(cantidad_items):
-            item = input(f'Codigo del item #{i+1}: ')
-            cantidad = int(input(f'Cantidad del item #{i+1}: '))
-            composiciones[codigo].append((item, cantidad))
-        print('Composicion registrada correctamente.')
+        if opcion == '1':
+            codigo = input('Ingrese el codigo del producto terminado: ')
+            composiciones[codigo] = []
+            cantidad_items = int(input('Cuantos insumos o farmacos usara este producto?: '))
+            for i in range(cantidad_items):
+                item = input(f'Codigo del item #{i+1}: ')
+                cantidad = int(input(f'Cantidad del item #{i+1}: '))
+                composiciones[codigo].append((item, cantidad))
+            print('Composicion registrada correctamente.')
 
-    elif opcion == '2':
-        codigo = input('Ingrese el codigo del producto terminado a producir: ')
-        cantidad = int(input('Cantidad a producir: '))
-        ordenes_produccion.append((codigo, cantidad))
-        print('Orden de produccion registrada.')
+        elif opcion == '2':
+            codigo = input('Ingrese el codigo del producto terminado a producir: ')
+            cantidad = int(input('Cantidad a producir: '))
+            ordenes_produccion.append((codigo, cantidad))
+            print('Orden de produccion registrada.')
 
-    elif opcion == '3':
-        for orden in ordenes_produccion:
-            codigo_producto = orden[0]
-            cantidad_producir = orden[1]
+        elif opcion == '3':
+            for orden in ordenes_produccion:
+                codigo_producto = orden[0]
+                cantidad_producir = orden[1]
 
-            if codigo_producto in composiciones:
-                for codigo_item, cantidad_usar in composiciones[codigo_producto]:
-                    for tipo in ['farmacos', 'insumos']:
-                        if codigo_item in inventario[tipo]:
-                            inventario[tipo][codigo_item]['cantidad'] -= cantidad_usar * cantidad_producir
+                if codigo_producto in composiciones:
+                    for codigo_item, cantidad_usar in composiciones[codigo_producto]:
+                        for tipo in ['farmacos', 'insumos']:
+                            if codigo_item in inventario[tipo]:
+                                inventario[tipo][codigo_item]['cantidad'] -= cantidad_usar * cantidad_producir
 
-                if codigo_producto in productos_stock:
-                    productos_stock[codigo_producto] += cantidad_producir
+                    if codigo_producto in productos_stock:
+                        productos_stock[codigo_producto] += cantidad_producir
+                    else:
+                        productos_stock[codigo_producto] = cantidad_producir
+
+                    print(f'Fabricados {cantidad_producir} de {codigo_producto}.')
                 else:
-                    productos_stock[codigo_producto] = cantidad_producir
+                    print(f'No existe composicion para el producto {codigo_producto}.')
 
-                print(f'Fabricados {cantidad_producir} de {codigo_producto}.')
-            else:
-                print(f'No existe composicion para el producto {codigo_producto}.')
+            ordenes_produccion[:] = []  # limpia la lista sin usar .clear()
 
-        ordenes_produccion[:] = []  # limpia la lista sin usar .clear()
-
-    elif opcion == '4':
-        print('Stock actual de productos terminados:')
-        for codigo, cantidad in productos_stock.items():
-            print(f'{codigo}: {cantidad} unidades')
+        elif opcion == '4':
+            print('Stock actual de productos terminados:')
+            for codigo, cantidad in productos_stock.items():
+                print(f'{codigo}: {cantidad} unidades')
+        elif opcion == '5':
+            print('Volviendo al menu principal')
+            op = False
 
 
 
 
 def ventas_menu():
+    op = True
+    while op:
     print('1) Crear episodio')
     print('2) Agregar atencion a episodio')
     print('3) Calcular precio de atencion')
     print('4) Ver reporte de ventas')
+    print('5) Salir')
     opcion = input('Seleccione una opcion: ')
 
     if opcion == '1':
@@ -467,8 +477,11 @@ def ventas_menu():
                 print('  Costo: $', round(total_costo, 2))
                 print('  Venta: $', round(total_venta, 2))
                 print('  Margen: $', round(margen, 2))
-
-while op:    
+    elif opcion == '5':
+            print('Volviendo al menu principal')
+            op = False
+                
+while op:   
     print('Bienvenido')
     print('1.- Menu de mantencion e inventario')
     print('2.- Menu de produccion')

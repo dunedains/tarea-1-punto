@@ -9,6 +9,8 @@ inventario = {}
 composiciones = {}  # codigo_producto: lista de (codigo_item, cantidad)
 productos_stock = {}  # codigo_producto: cantidad
 ordenes_produccion = []  # lista de tuplas (codigo_producto, cantidad)
+episodios = []  # lista de episodios (cada uno es un diccionario)
+atenciones = []  # lista de atenciones (cada una esta ligada a un episodio por codigo)
 op = True
 
 def pacientes():
@@ -309,24 +311,6 @@ def reporte_bajo_stock():
     else:
         print("No hay insumos clínicos con stock bajo.")
 
-while op:
-    menu()
-    if op:
-        print("volviendo al menu principal")
-    else:
-        print("saliendo del programa")
-        reporte_bajo_stock()
-        reporte_farmacos()
-        listar_diccionario(dic_pacientes)
-        listar_diccionario(dic_farmacos)
-        listar_diccionario(dic_insumos_clinicos)
-        print("Productos terminados:", productos_terminados)
-        print("Prestaciones medicas:", prestaciones_medicas)
-        print("Provedores:", provedores)
-        print("Gracias por usar el sistema de gestion de datos.")
-        print("Hasta luego!")
-
-
 def produccion_menu():
     print('1) Crear composicion de producto terminado')
     print('2) Crear orden de produccion')
@@ -378,8 +362,7 @@ def produccion_menu():
             print(f'{codigo}: {cantidad} unidades')
 
 
-episodios = []  # lista de episodios (cada uno es un diccionario)
-atenciones = []  # lista de atenciones (cada una esta ligada a un episodio por codigo)
+
 
 def ventas_menu():
     print('1) Crear episodio')
@@ -485,4 +468,20 @@ def ventas_menu():
                 print('  Venta: $', round(total_venta, 2))
                 print('  Margen: $', round(margen, 2))
 
-    
+while op:    
+    print('Bienvenido')
+    print('1.- Menu de mantencion e inventario')
+    print('2.- Menu de produccion')
+    print('3.- Menu de ventas')
+    print('4.- Salir')
+    opcion = input('Ingrese su opcion: ')
+    match opcion:
+        case '1':
+            menu()
+        case '2':
+            produccion_menu()
+        case '3':
+            ventas_menu()
+        case '4':
+            print('Gracias por usar nuestros servicios!')
+            op = False
